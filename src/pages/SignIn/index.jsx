@@ -20,7 +20,7 @@ const SignIn = () => {
         const userObject = res?.data
         console.log(userObject);
         localStorage.setItem('user', JSON.stringify(userObject));
-        navigate('/dashboard')
+        navigate('/dashboard', { replace: true })
     }
 
     const login = useGoogleLogin({
