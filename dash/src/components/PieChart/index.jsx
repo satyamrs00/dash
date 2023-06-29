@@ -1,7 +1,10 @@
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/pie`)
 
 const options = {
     responsive: true,
@@ -15,11 +18,11 @@ const options = {
 };
 
 const data = {
-    labels: ['Basic Tees', 'Custom Short Pants', 'Super hoodies'],
+    labels: Object.keys(res.data),
     datasets: [
         {
             label: '# of Votes',
-            data: [55, 31, 14],
+            data: Object.values(res.data),
             backgroundColor: [
                 '#98D89E',
                 '#F6DC7D',

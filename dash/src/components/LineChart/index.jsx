@@ -9,6 +9,7 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import axios from 'axios';
 
 ChartJS.register(
     CategoryScale,
@@ -19,6 +20,8 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+
+const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/line`)
 
 export const options = {
     maintainAspectRatio: false,
@@ -51,7 +54,18 @@ export const options = {
         x: {
             grid: {
                 display: false,
-            }
+            },
+            ticks: {
+                callback: function (value, index, values) {
+                    if ((value+1) % (Object.keys(res.data[0]).length / 5) === 0) {
+                        if (value === 29) return null;
+                        console.log(value)
+                        return "Week " + ((value+1) / (Object.keys(res.data[0]).length / 5)) ;
+                    }
+                    return null
+                },
+                padding: 6,
+            },
         },
         y: {
             grid: {
@@ -72,18 +86,18 @@ export const options = {
 }
 
 export const data = {
-    labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
+    labels: Object.keys(res.data[0]),
     datasets: [
         {
             label: 'Guest',
-            data: [200, 260, 340, 400, 375, 350, 325, 300, 275, 250, 225, 200, 212, 225, 238, 250, 275, 300, 284, 268, 252, 236, 220, 245, 270, 295, 320, 345, 395, 420],
+            data: Object.values(res.data[0]),
             borderColor: '#E9A0A0',
             backgroundColor: '#E9A0A0',
             tension: 0.35,
         },
         {
             label: 'User',
-            data: [100, 160, 240, 300, 375, 420, 375, 300, 275, 240, 200, 170, 212, 252, 292, 335, 375, 400, 370, 340, 310, 280, 240, 210, 180, 200, 200, 220, 240, 250],
+            data: Object.values(res.data[1]),
             borderColor: '#9BDD7C',
             backgroundColor: '#9BDD7C',
             tension: 0.35,
