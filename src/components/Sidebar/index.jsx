@@ -3,6 +3,8 @@ import transactions from '../../assets/svgs/transaction_icon.svg';
 import schedules from '../../assets/svgs/schedule_icon.svg';
 import users from '../../assets/svgs/user_icon.svg';
 import settings from '../../assets/svgs/setting_icon.svg';
+import close from '../../assets/images/icons8-close-50.png';
+import down from '../../assets/svgs/down.svg'
 import { useState } from 'react';
 
 const Sidebar = () => {
@@ -14,9 +16,26 @@ const Sidebar = () => {
         { name: 'Settings', icon: settings },
     ];
     const [active, setActive] = useState(0);
+    const [expanded, setExpanded] = useState(false)
 
     return (
-        <div className="flex flex-col w-60 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8 overflow-y-auto">
+        (!expanded && window.innerWidth < 768) 
+        ? 
+        <div className='w-4 h-full flex items-center absolute left-0 top-0 bg-black' onClick={() => setExpanded(true)} >
+            <img src={down} alt='down' className='w-4 h-4 rotate-[270deg]' />
+        </div> 
+        :
+        <div className="relative flex-col hidden md:flex md:w-60 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8 mr-0 overflow-y-auto z-1" style={{
+            display: expanded && 'flex',
+            borderRadius: expanded && 0,
+            margin: expanded && 0,
+            width: expanded && 'calc(100vw)',
+            height: expanded && 'calc(100vh)',
+            position: expanded && 'absolute',
+        }}>
+            <div className='absolute top-0 right-0 block md:hidden'>
+                <img src={close} alt='close' className='w-6 h-6 m-4 cursor-pointer' color='#fff' onClick={() => setExpanded(false)} />
+            </div>
             <div className="text-4xl font-bold">
                 Board.
             </div>

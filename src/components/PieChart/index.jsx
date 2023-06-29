@@ -38,11 +38,11 @@ const data = {
 
 const PieChart = () => {
     return (
-        <div className="flex justify-center w-full">
-            <div className='w-1/2'>
+        <div className="flex justify-center w-full flex-wrap">
+            <div className='md:w-1/2'>
                 <Pie data={data} options={options} />
             </div>
-            <div className='w-1/2 flex flex-col justify-between p-4'>
+            <div className='md:w-1/2 flex flex-col justify-between p-4'>
                 {data.labels.map((item, index) => (
                     <div className='flex items-center gap-2' key={index}>
                         <div className='w-3 h-3 rounded-full' style={{ backgroundColor: data.datasets[0].backgroundColor[index]}}></div>

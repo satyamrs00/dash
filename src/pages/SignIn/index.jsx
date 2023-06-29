@@ -3,7 +3,6 @@ import apple from '../../assets/svgs/apple 1.svg'
 import google from '../../assets/svgs/google-icon 1.svg'
 import Input from '../../components/Input'
 import { useGoogleLogin } from '@react-oauth/google';
-import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 

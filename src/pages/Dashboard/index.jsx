@@ -26,17 +26,17 @@ const Dashboard = () => {
     return (
         <div className="flex w-screen h-screen bg-[#f5f5f5]">
             <Sidebar />
-            <div className="flex flex-col pl-0 pr-10 py-8 gap-4 grow overflow-y-auto scrollbar-hide">
+            <div className="flex flex-col p-8 gap-4 grow overflow-y-auto scrollbar-hide">
                 <div className="flex justify-end gap-6 items-center">
                     <div className="font-bold text-xl mr-auto">Dashboard</div>
-                    <div className="bg-white rounded-xl px-4 py-2 text-sm">
+                    <div className="bg-white rounded-xl px-4 py-2 text-sm hidden md:block">
                         <input type="text" placeholder="Search" className="bg-transparent outline-none" />
                         <img src={search} alt="search" className="inline-block w-4 h-4" />
                     </div>
                     <img src={notif} alt="notif" className="w-6 h-6" />
                     <img src={user?.picture ?? avatar} alt="avatar" className="w-8 h-8 rounded-full" />
                 </div>
-                <div className="grid grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {cards.map((item, index) => (
                         <div className={'rounded-2xl p-4'} style={{ backgroundColor: item.color }} key={index}>
                             <div className="flex justify-end w-full">
@@ -47,11 +47,16 @@ const Dashboard = () => {
                         </div>
                     ))}
                 </div>
-                <div className="bg-white p-4 rounded-xl flex justify-center">
+                <div className="bg-white p-4 rounded-xl justify-center">
+                    <div className="text-lg font-bold">Activities</div>
+                    <div className="text-sm text-[#858585] flex items-center cursor-pointer">
+                        May - June 2021
+                        <img src={down} alt="down" className="inline-block w-3 h-3 ml-2" />
+                    </div>
                     <Linechart />
                 </div>
-                <div className="flex gap-4">
-                    <div className="bg-white p-6 rounded-xl w-1/2">
+                <div className="flex gap-4 flex-wrap md:flex-nowrap">
+                    <div className="bg-white p-6 rounded-xl w-full md:w-1/2">
                         <div className="flex justify-between items-center mb-4">
                             <div className="text-lg font-bold">Top Products</div>
                             <div className="text-sm text-[#858585] flex items-center cursor-pointer">
@@ -61,7 +66,7 @@ const Dashboard = () => {
                         </div>
                         <PieChart />
                     </div>
-                    <div className="bg-white p-6 rounded-xl w-1/2 flex flex-col">
+                    <div className="bg-white p-6 rounded-xl w-full md:w-1/2 flex flex-col">
                         <div className="flex justify-between items-center mb-4">
                             <div className="text-lg font-bold">Today's Schedule</div>
                             <div className="text-sm text-[#858585] flex items-center cursor-pointer">

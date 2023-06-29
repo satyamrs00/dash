@@ -21,9 +21,10 @@ ChartJS.register(
 );
 
 export const options = {
-    aspectRatio: 3,
+    maintainAspectRatio: false,
     plugins: {
         legend: {
+            display: false,
             position: 'top',
             align: 'end',
             labels: {
@@ -36,7 +37,7 @@ export const options = {
             }
         },
         title: {
-            display: true,
+            display: false,
             text: 'Activities',
             align: 'start',
             font: {
@@ -93,7 +94,21 @@ export const data = {
 
 const Linechart = () => {
     return (
-        <Line data={data} options={options} />
+        <>
+            <div className='w-full flex justify-end gap-8 items-center'>
+                {data.datasets.map((item, index) => (
+                    <div className='flex items-center gap-2'>
+                        <div className='w-3 h-3 rounded-full' style={{ backgroundColor: item.backgroundColor}}></div>
+                        <div>
+                            {item.label}
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div>
+                <Line data={data} options={options} />
+            </div>
+        </>
     )
 }
 
