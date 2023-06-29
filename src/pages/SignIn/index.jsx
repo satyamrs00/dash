@@ -2,10 +2,10 @@ import { useState } from 'react'
 import apple from '../../assets/svgs/apple 1.svg'
 import google from '../../assets/svgs/google-icon 1.svg'
 import Input from '../../components/Input'
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import { GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 const SignIn = () => {
     const navigate = useNavigate()
@@ -15,20 +15,28 @@ const SignIn = () => {
         password: ''
     })
 
-    const responseGoogle = (response) => {
-        const userObject = jwt_decode(response.credential);
-        //console.log(userObject);
+    const responseGoogle = async (response) => {
+        console.log(response);
+        const res = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + response.access_token)
+        const userObject = res?.data
+        console.log(userObject);
         localStorage.setItem('user', JSON.stringify(userObject));
         navigate('/dashboard')
     }
 
+    const login = useGoogleLogin({
+        onSuccess: responseGoogle,
+        onError: responseGoogle,
+        flow: 'implicit',
+    });
+
     return (
-        <div className="w-screen h-screen flex">
-            <div className="w-2/5 h-full bg-black text-white text-7xl font-bold flex justify-center items-center">
+        <div className="w-screen md:h-screen flex flex-col md:flex-row">
+            <div className=" w-screen md:w-2/5 h-screen bg-black text-white text-7xl font-bold flex justify-center items-center">
                 Board.
             </div>
-            <div className="flex justify-center items-center w-3/5 h-full bg-[#f5f5f5]">
-                <div className="flex flex-col justify-center items-start gap-5">
+            <div className="flex justify-center items-center w-screen md:w-3/5 md:h-screen bg-[#f5f5f5]">
+                <div className="flex flex-col justify-center items-start gap-5 p-4">
                     <div>
                         <div className="text-4xl font-bold mb-2">
                             Sign In
@@ -37,32 +45,15 @@ const SignIn = () => {
                             Sign in to your account
                         </div>
                     </div>
-                    <div className="flex gap-5">
-                        {/* <button className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
+                    <div className="flex gap-5 flex-wrap">
+
+                        
+                        <button className="bg-[#fff] grow rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm" onClick={() => login()}>
                             <img src={google} alt="" className="w-4 h-4 mr-2" />
                             Sign in with Google
-                        </button> */}
-                        <GoogleOAuthProvider 
-                            clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}
-                        >
-                            <GoogleLogin
-                                render={(renderProps) => (
-                                    <button
-                                        type="button"
-                                        className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm"
-                                        onClick={renderProps.onClick}
-                                        disabled={renderProps.disabled}
-                                    >
-                                        <img src={google} alt="" className="w-4 h-4 mr-2" /> Sign in with google
-                                    </button>
-                                )}
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                                cookiePolicy="single_host_origin"
-                            />
-                        </GoogleOAuthProvider>
+                        </button>
 
-                        <button className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
+                        <button className="bg-[#fff] grow rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
                             <img src={apple} alt="" className="w-4 h-4 mr-2" />
                             Sign in with Apple
                         </button>
