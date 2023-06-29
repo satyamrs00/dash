@@ -16,7 +16,7 @@ const Sidebar = () => {
     const [active, setActive] = useState(0);
 
     return (
-        <div className="flex flex-col w-56 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8">
+        <div className="flex flex-col w-60 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8 overflow-y-auto">
             <div className="text-4xl font-bold">
                 Board.
             </div>
