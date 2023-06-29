@@ -21,11 +21,11 @@ const Sidebar = () => {
     return (
         (!expanded && window.innerWidth < 768) 
         ? 
-        <div className='w-4 h-full flex items-center absolute left-0 top-0 bg-black' onClick={() => setExpanded(true)} >
+        <div className='w-4 z-10 h-full flex items-center absolute left-0 top-0 bg-black' onClick={() => setExpanded(true)} >
             <img src={down} alt='down' className='w-4 h-4 rotate-[270deg]' />
         </div> 
         :
-        <div className="relative flex-col hidden md:flex md:w-60 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8 mr-0 overflow-y-auto z-1" style={{
+        <div className="relative z-10 flex-col hidden md:flex md:w-60 self-stretch px-6 py-8 bg-black text-white rounded-3xl m-8 mr-0 overflow-y-auto z-1" style={{
             display: expanded && 'flex',
             borderRadius: expanded && 0,
             margin: expanded && 0,
