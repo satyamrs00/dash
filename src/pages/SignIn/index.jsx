@@ -2,12 +2,25 @@ import { useState } from 'react'
 import apple from '../../assets/svgs/apple 1.svg'
 import google from '../../assets/svgs/google-icon 1.svg'
 import Input from '../../components/Input'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
+    const navigate = useNavigate()
+
     const [credentials, setCredentials] = useState({
         email: '',
         password: ''
     })
+
+    const responseGoogle = (response) => {
+        const userObject = jwt_decode(response.credential);
+        //console.log(userObject);
+        localStorage.setItem('user', JSON.stringify(userObject));
+        navigate('/dashboard')
+    }
 
     return (
         <div className="w-screen h-screen flex">
@@ -25,10 +38,30 @@ const SignIn = () => {
                         </div>
                     </div>
                     <div className="flex gap-5">
-                        <button className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
+                        {/* <button className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
                             <img src={google} alt="" className="w-4 h-4 mr-2" />
                             Sign in with Google
-                        </button>
+                        </button> */}
+                        <GoogleOAuthProvider 
+                            clientId={`${process.env.REACT_APP_GOOGLE_CLIENT_ID}`}
+                        >
+                            <GoogleLogin
+                                render={(renderProps) => (
+                                    <button
+                                        type="button"
+                                        className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm"
+                                        onClick={renderProps.onClick}
+                                        disabled={renderProps.disabled}
+                                    >
+                                        <img src={google} alt="" className="w-4 h-4 mr-2" /> Sign in with google
+                                    </button>
+                                )}
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy="single_host_origin"
+                            />
+                        </GoogleOAuthProvider>
+
                         <button className="bg-[#fff] rounded-xl flex justify-center items-center text-[#858585] py-2 px-6 text-sm">
                             <img src={apple} alt="" className="w-4 h-4 mr-2" />
                             Sign in with Apple

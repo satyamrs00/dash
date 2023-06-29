@@ -11,6 +11,8 @@ import Linechart from "../../components/LineChart"
 import PieChart from "../../components/PieChart"
 
 const Dashboard = () => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    
     const cards = [
         { title: "Total Revenue", value: "$2,129,430", icon: revenues, color: '#DDEFE0' },
         { title: "Total Transactions", value: '1,520', icon: transactions, color: '#F4ECDD' },
@@ -32,7 +34,7 @@ const Dashboard = () => {
                         <img src={search} alt="search" className="inline-block w-4 h-4" />
                     </div>
                     <img src={notif} alt="notif" className="w-6 h-6" />
-                    <img src={avatar} alt="avatar" className="w-8 h-8 rounded-full" />
+                    <img src={user?.picture ?? avatar} alt="avatar" className="w-8 h-8 rounded-full" />
                 </div>
                 <div className="grid grid-cols-4 gap-8">
                     {cards.map((item, index) => (
