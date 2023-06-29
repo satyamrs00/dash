@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="*" element={<SignIn />} />
       </Routes>
     </Router>
     </GoogleOAuthProvider>
